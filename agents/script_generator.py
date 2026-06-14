@@ -163,9 +163,11 @@ def _is_valid_script(script: str) -> bool:
     return True
 
 
-def _generate_script_with_llm(flow: str, url: str, intent: str) -> str | None:
-    client = LLMClient()
-    if not client.settings.llm_enabled:
+def _generate_script_with_llm(
+    flow: str, url: str, intent: str, settings_override: dict | None = None
+) -> str | None:
+    client = LLMClient(settings_override)
+    if not client.llm_enabled:
         return None
 
     system = client.load_prompt("script_generation")
@@ -189,9 +191,9 @@ def _generate_script_with_llm(flow: str, url: str, intent: str) -> str | None:
     return None
 
 
-def build_script(flow: str, url: str, intent: str = "") -> str:
+def build_script(flow: str, url: str, intent: str = "", settings_override: dict | None = None) -> str:
     """Build a Playwright script string for a single flow."""
-    script = _generate_script_with_llm(flow, url, intent)
+    script = _generate_script_with_llm(flow, url, intent, settings_override)
     if script:
         return script
     return _build_fallback_script(flow, url)
@@ -207,6 +209,7 @@ def _resolve_scripts_for_flows(
     flows: list[str],
     *,
     force_flows: set[str] | None = None,
+    settings_override: dict | None = None,
 ) -> tuple[list[str], dict[str, str], list[str], list[str], list[str]]:
     store = ScriptStore(url)
     store.archive_removed_flows(flows)
@@ -233,7 +236,7 @@ def _resolve_scripts_for_flows(
                 logger.info("Reusing cached script for flow=%s", flow)
                 continue
 
-        script = build_script(flow, url, intent)
+        script = build_script(flow, url, intent, settings_override)
         scripts.append(script)
         source = "regenerated" if must_regenerate else "generated"
         if source == "regenerated":
@@ -263,7 +266,7 @@ def generate_scripts(state: AgentState) -> dict[str, Any]:
     logger.info("Resolving scripts for %d flows (hybrid/local storage)", len(flows))
 
     scripts, script_sources, flows_reused, flows_generated, flows_regenerated = _resolve_scripts_for_flows(
-        url, intent, flows
+        url, intent, flows, settings_override=state.get("settings_override")
     )
 
     return {
@@ -292,7 +295,7 @@ def regenerate_current_flow(state: AgentState) -> dict[str, Any]:
     flow = flows[index]
     logger.info("Regenerating script from scratch for flow=%s after repair exhaustion", flow)
 
-    new_script = build_script(flow, url, intent)
+    new_script = build_script(flow, url, intent, settings_override=state.get("settings_override"))
     flow_hash = compute_flow_hash(url, intent, flow)
     store = ScriptStore(url)
     store.save_script(

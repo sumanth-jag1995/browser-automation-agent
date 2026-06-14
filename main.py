@@ -10,6 +10,7 @@ from typing import Any
 
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, HttpUrl
@@ -18,8 +19,6 @@ from config import get_settings
 from orchestrator.graph import run_pipeline
 from storage.redis_store import RunStore
 from storage.report_index import list_reports, load_report
-
-DASHBOARD_HTML = Path(__file__).resolve().parent / "dashboard" / "index.html"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -33,6 +32,11 @@ run_store = RunStore()
 class RunRequest(BaseModel):
     url: HttpUrl
     intent: str = Field(min_length=1, examples=["Test checkout flow"])
+    openrouter_api_key: str | None = None
+    openrouter_model: str | None = None
+    use_mock_llm: bool | None = None
+    max_retries: int | None = None
+    max_repair_before_regenerate: int | None = None
 
 
 class RunResponse(BaseModel):
@@ -71,6 +75,23 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Enable CORS for cross-origin requests (e.g., Vercel frontend calling Railway backend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+        # Add your production frontend URLs here:
+        # "https://your-vercel-domain.vercel.app",
+        # "https://yourdomain.com",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 screenshots_root = Path("screenshots")
 if screenshots_root.exists():
     app.mount("/screenshots", StaticFiles(directory=str(screenshots_root)), name="screenshots")
@@ -79,14 +100,6 @@ if screenshots_root.exists():
 @app.get("/")
 def root() -> RedirectResponse:
     return RedirectResponse(url="/dashboard")
-
-
-@app.get("/dashboard", response_class=HTMLResponse)
-@app.get("/dashboard/{run_id}", response_class=HTMLResponse)
-def dashboard(run_id: str | None = None) -> HTMLResponse:
-    if not DASHBOARD_HTML.exists():
-        raise HTTPException(status_code=500, detail="Dashboard template not found")
-    return HTMLResponse(DASHBOARD_HTML.read_text(encoding="utf-8"))
 
 
 @app.get("/api/runs")
@@ -103,11 +116,25 @@ def health() -> dict[str, str]:
 def start_run(request: RunRequest, background_tasks: BackgroundTasks) -> RunResponse:
     run_id = str(uuid.uuid4())
     run_store.set_status(run_id, "running", progress=0)
+
+    override: dict = {}
+    if request.openrouter_api_key is not None:
+        override["openrouter_api_key"] = request.openrouter_api_key
+    if request.openrouter_model is not None:
+        override["openrouter_model"] = request.openrouter_model
+    if request.use_mock_llm is not None:
+        override["use_mock_llm"] = request.use_mock_llm
+    if request.max_retries is not None:
+        override["max_retries"] = request.max_retries
+    if request.max_repair_before_regenerate is not None:
+        override["max_repair_before_regenerate"] = request.max_repair_before_regenerate
+
     background_tasks.add_task(
         _execute_run,
         run_id,
         str(request.url),
         request.intent,
+        override or None,
     )
     return RunResponse(
         run_id=run_id,
@@ -142,10 +169,26 @@ def get_report(run_id: str) -> dict[str, Any]:
     return report
 
 
-def _execute_run(run_id: str, url: str, intent: str) -> None:
+# Serve the built React frontend — must come AFTER all API routes
+_FRONTEND_DIST = Path(__file__).resolve().parent / "frontend" / "dist"
+
+if _FRONTEND_DIST.exists():
+    app.mount(
+        "/assets",
+        StaticFiles(directory=str(_FRONTEND_DIST / "assets")),
+        name="frontend-assets",
+    )
+
+    @app.get("/{full_path:path}", response_class=HTMLResponse)
+    def serve_spa(full_path: str) -> HTMLResponse:
+        index = _FRONTEND_DIST / "index.html"
+        return HTMLResponse(index.read_text(encoding="utf-8"))
+
+
+def _execute_run(run_id: str, url: str, intent: str, settings_override: dict | None = None) -> None:
     run_store.set_status(run_id, "running", progress=10)
     try:
-        result = run_pipeline(url=url, intent=intent, run_id=run_id)
+        result = run_pipeline(url=url, intent=intent, run_id=run_id, settings_override=settings_override)
         report = result.get("final_report") or {}
         run_store.set_report(run_id, report)
         final_status = report.get("status", result.get("status", "success"))

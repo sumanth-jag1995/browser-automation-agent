@@ -31,21 +31,29 @@ def _route_after_execute(
 ) -> Literal["executor", "regression_monitor", "error_diagnosis", "regenerate_flow", "escalate"]:
     status = state.get("status", "")
     settings = get_settings()
+    override = state.get("settings_override") or {}
+
+    max_retries = int(override["max_retries"]) if "max_retries" in override else settings.max_retries
+    max_repair = (
+        int(override["max_repair_before_regenerate"])
+        if "max_repair_before_regenerate" in override
+        else settings.max_repair_before_regenerate
+    )
 
     if status == "executing":
         return "executor"
     if status == "execution_success":
         return "regression_monitor"
     if status == "execution_failed":
-        if state.get("retry_count", 0) >= settings.max_retries:
+        if state.get("retry_count", 0) >= max_retries:
             return "escalate"
         flow = _current_flow(state)
         repair_attempts = state.get("flow_repair_counts", {}).get(flow, 0)
-        if repair_attempts >= settings.max_repair_before_regenerate:
+        if repair_attempts >= max_repair:
             logger.info(
                 "Flow %s exceeded repair threshold (%d); regenerating script",
                 flow,
-                settings.max_repair_before_regenerate,
+                max_repair,
             )
             return "regenerate_flow"
         return "error_diagnosis"
@@ -96,13 +104,16 @@ def compile_graph():
     return build_graph().compile()
 
 
-def run_pipeline(url: str, intent: str, run_id: str) -> AgentState:
+def run_pipeline(
+    url: str, intent: str, run_id: str, settings_override: dict | None = None
+) -> AgentState:
     logger.info("Starting pipeline run_id=%s url=%s", run_id, url)
     app = compile_graph()
     initial_state: AgentState = {
         "url": url,
         "intent": intent,
         "run_id": run_id,
+        "settings_override": settings_override,
         "discovered_flows": [],
         "generated_scripts": [],
         "execution_results": [],

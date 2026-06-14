@@ -27,3 +27,4 @@ class AgentState(TypedDict, total=False):
     flows_reused: list[str]
     flows_generated: list[str]
     flows_regenerated: list[str]
+    settings_override: Optional[dict[str, Any]]

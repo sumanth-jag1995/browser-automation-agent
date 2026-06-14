@@ -40,12 +40,12 @@ def discover_flows(state: AgentState) -> dict[str, Any]:
     intent = state["intent"]
     logger.info("Discovering flows for url=%s intent=%s", url, intent)
 
-    client = LLMClient()
+    client = LLMClient(state.get("settings_override"))
     system = client.load_prompt("flow_discovery")
     prompt = f"URL: {url}\nIntent: {intent}\n\nReturn 3-5 critical user journeys as a JSON array."
 
     try:
-        if client.settings.llm_enabled:
+        if client.llm_enabled:
             raw = client.complete(prompt, system=system)
             flows = _parse_flows(raw)
             logger.info('===============================================')

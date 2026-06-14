@@ -62,7 +62,7 @@ def diagnose_error(state: AgentState) -> dict[str, Any]:
 
     logger.info("Diagnosing failure: %s", error[:120])
 
-    client = LLMClient()
+    client = LLMClient(state.get("settings_override"))
     prompt = (
         f"Failed script:\n{failed_script}\n\n"
         f"Execution error:\n{error}\n\n"
@@ -70,7 +70,7 @@ def diagnose_error(state: AgentState) -> dict[str, Any]:
     )
 
     try:
-        if client.settings.llm_enabled:
+        if client.llm_enabled:
             system = client.load_prompt("diagnosis")
             diagnosis = client.complete_json(prompt, system=system)
         else:

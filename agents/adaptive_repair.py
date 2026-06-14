@@ -84,7 +84,7 @@ def repair_script(state: AgentState) -> dict[str, Any]:
 
     logger.info("Repairing script for flow=%s failure_type=%s", flow, diagnosis.get("failure_type"))
 
-    client = LLMClient()
+    client = LLMClient(state.get("settings_override"))
     prompt = (
         f"Diagnosis:\n{diagnosis}\n\n"
         f"Failed script:\n{failed_script}\n\n"
@@ -93,7 +93,7 @@ def repair_script(state: AgentState) -> dict[str, Any]:
 
     repaired_script = failed_script
     try:
-        if client.settings.llm_enabled:
+        if client.llm_enabled:
             system = client.load_prompt("repair")
             response = client.complete_json(prompt, system=system)
             repaired_script = response.get("repaired_script", failed_script)

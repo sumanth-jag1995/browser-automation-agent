@@ -18,20 +18,38 @@ logger = logging.getLogger(__name__)
 class LLMClient:
     """Wrapper around Anthropic or OpenRouter APIs with mock responses when no API key is set."""
 
-    def __init__(self) -> None:
+    def __init__(self, override: dict[str, Any] | None = None) -> None:
         self.settings = get_settings()
+        self._override = override or {}
         self._anthropic_client: Any = None
-        if self.settings.resolved_llm_provider == "anthropic":
+
+        # Effective values — override takes precedence over env-based settings
+        eff_api_key = self._override.get("openrouter_api_key") or self.settings.openrouter_api_key
+        eff_model = self._override.get("openrouter_model") or self.settings.openrouter_model
+        mock_forced = bool(self._override.get("use_mock_llm", False))
+
+        self._effective_api_key: str = eff_api_key or ""
+        self._effective_model: str = eff_model or ""
+        # llm_enabled: False if mock is forced OR if we have no effective API key
+        # This respects UI-provided credentials (override) not just env vars
+        self.llm_enabled: bool = (not mock_forced) and bool(self._effective_api_key)
+
+        if self.settings.resolved_llm_provider == "anthropic" and self.llm_enabled:
             from anthropic import Anthropic
 
             self._anthropic_client = Anthropic(api_key=self.settings.anthropic_api_key)
 
     def complete(self, prompt: str, system: str = "") -> str:
-        if not self.settings.llm_enabled:
+        if not self.llm_enabled:
             logger.info("Using mock LLM response (no API key or mock mode enabled)")
             return self._mock_response(prompt)
 
-        provider = self.settings.resolved_llm_provider
+        # Determine provider: override takes precedence, then fall back to env-based setting
+        if "openrouter_api_key" in self._override:
+            provider = "openrouter"
+        else:
+            provider = self.settings.resolved_llm_provider
+        
         if provider == "anthropic":
             return self._complete_anthropic(prompt, system)
         if provider == "openrouter":
@@ -66,11 +84,11 @@ class LLMClient:
         response = httpx.post(
             url,
             headers={
-                "Authorization": f"Bearer {self.settings.openrouter_api_key}",
+                "Authorization": f"Bearer {self._effective_api_key}",
                 "Content-Type": "application/json",
             },
             json={
-                "model": self.settings.llm_model,
+                "model": self._effective_model,
                 "messages": messages,
                 "max_tokens": 4096,
             },

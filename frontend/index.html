@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Automation AI Agent</title>
+  </head>
+  <body class="bg-bg text-text">
+    <div id="root"></div>
+    <!-- Runtime config injection (FastAPI can override this) -->
+    <script>
+      window.ENV = window.ENV || { API_BASE: '' };
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
