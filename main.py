@@ -127,7 +127,7 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
         # Replace with your actual Vercel frontend URL after deploying:
-        "https://browser-automation-agent.vercel.app",
+        "https://browser-automation-agent-k8pv.vercel.app",
         # If Vercel assigns a different URL, add it here too:
         # "https://your-project-name-xyz123.vercel.app",
     ],
