@@ -1,0 +1,50 @@
+{
+  "run_id": "c829adab-7fdc-4c8d-9d55-fb5d1df57150",
+  "url": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+  "intent": "Test login flow",
+  "flows_total": 3,
+  "flows_passed": 3,
+  "auto_repairs": 0,
+  "retries_used": 0,
+  "regressions": 3,
+  "status": "regression",
+  "screenshots": [
+    "screenshots/current/repaired_flow.png",
+    "screenshots/current/repaired_flow.png",
+    "screenshots/current/password_reset.png"
+  ],
+  "execution_results": [
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/repaired_flow.png"
+      ]
+    },
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/repaired_flow.png"
+      ]
+    },
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/password_reset.png"
+      ],
+      "flow": "password_reset"
+    }
+  ],
+  "script_sources": {
+    "login": "cached",
+    "logout": "cached",
+    "password_reset": "cached"
+  },
+  "flows_reused": [
+    "login",
+    "logout",
+    "password_reset"
+  ],
+  "flows_generated": [],
+  "flows_regenerated": [],
+  "generated_at": "2026-06-14T01:58:38.852982+00:00"
+}

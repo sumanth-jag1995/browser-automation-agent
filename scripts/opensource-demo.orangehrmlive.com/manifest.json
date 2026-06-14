@@ -1,0 +1,31 @@
+{
+  "url": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+  "flows": {
+    "login": {
+      "flow_hash": "638113ac45ca0efb",
+      "script_path": "login.py",
+      "source": "cached",
+      "repair_count": 0,
+      "last_status": "success",
+      "updated_at": "2026-06-14T02:02:44.634479+00:00"
+    },
+    "logout": {
+      "flow_hash": "a2c1534b2ac6949c",
+      "script_path": "logout.py",
+      "source": "cached",
+      "repair_count": 0,
+      "last_status": "success",
+      "updated_at": "2026-06-14T02:02:48.361429+00:00"
+    },
+    "password_reset": {
+      "flow_hash": "b7908cd2fc0365d9",
+      "script_path": "password_reset.py",
+      "source": "cached",
+      "repair_count": 0,
+      "last_status": "success",
+      "updated_at": "2026-06-14T02:02:53.001439+00:00"
+    }
+  },
+  "intent": "Test login flow",
+  "updated_at": "2026-06-14T02:02:53.001441+00:00"
+}

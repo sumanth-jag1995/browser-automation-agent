@@ -1,0 +1,54 @@
+{
+  "run_id": "e32958b7-3200-4be1-b2de-39c7d57e5e27",
+  "url": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+  "intent": "Test login flow",
+  "flows_total": 3,
+  "flows_passed": 0,
+  "auto_repairs": 3,
+  "retries_used": 3,
+  "regressions": 0,
+  "status": "failed",
+  "screenshots": [],
+  "execution_results": [
+    {
+      "status": "fail",
+      "error": "Error: BrowserType.launch: Executable doesn't exist at /var/folders/yc/hhxkh7xj6v72lyn8ds_dwhvw0000gn/T/cursor-sandbox-cache/af74357987d3300b014f437c68affe7e/playwright/chromium-1223/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d",
+      "flow": "login"
+    },
+    {
+      "status": "fail",
+      "error": "Error: BrowserType.launch: Executable doesn't exist at /var/folders/yc/hhxkh7xj6v72lyn8ds_dwhvw0000gn/T/cursor-sandbox-cache/af74357987d3300b014f437c68affe7e/playwright/chromium-1223/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d",
+      "flow": "login"
+    },
+    {
+      "status": "fail",
+      "error": "Error: BrowserType.launch: Executable doesn't exist at /var/folders/yc/hhxkh7xj6v72lyn8ds_dwhvw0000gn/T/cursor-sandbox-cache/af74357987d3300b014f437c68affe7e/playwright/chromium-1223/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d",
+      "flow": "login"
+    },
+    {
+      "status": "fail",
+      "error": "Error: BrowserType.launch: Executable doesn't exist at /var/folders/yc/hhxkh7xj6v72lyn8ds_dwhvw0000gn/T/cursor-sandbox-cache/af74357987d3300b014f437c68affe7e/playwright/chromium-1223/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d",
+      "flow": "login"
+    },
+    {
+      "status": "fail",
+      "error": "Error: BrowserType.launch: Executable doesn't exist at /var/folders/yc/hhxkh7xj6v72lyn8ds_dwhvw0000gn/T/cursor-sandbox-cache/af74357987d3300b014f437c68affe7e/playwright/chromium-1223/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright Team                                         \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d",
+      "flow": "login"
+    }
+  ],
+  "script_sources": {
+    "login": "repaired",
+    "logout": "cached",
+    "password_reset": "cached"
+  },
+  "flows_reused": [
+    "login",
+    "logout",
+    "password_reset"
+  ],
+  "flows_generated": [],
+  "flows_regenerated": [
+    "login"
+  ],
+  "generated_at": "2026-06-13T18:20:36.930349+00:00"
+}

@@ -1,0 +1,56 @@
+{
+  "run_id": "257ee8c1-9030-442d-a443-04e14e843985",
+  "url": "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+  "intent": "Test login flow",
+  "flows_total": 3,
+  "flows_passed": 3,
+  "auto_repairs": 1,
+  "retries_used": 1,
+  "regressions": 3,
+  "status": "failed",
+  "screenshots": [
+    "screenshots/current/repaired_flow.png",
+    "screenshots/current/repaired_flow.png",
+    "screenshots/current/password_reset.png"
+  ],
+  "execution_results": [
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/repaired_flow.png"
+      ]
+    },
+    {
+      "status": "fail",
+      "error": "TimeoutError: Page.goto: Timeout 60000ms exceeded.\nCall log:\n  - navigating to \"https://opensource-demo.orangehrmlive.com/web/index.php/auth/login\", waiting until \"domcontentloaded\"\n",
+      "flow": "logout",
+      "screenshots": []
+    },
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/repaired_flow.png"
+      ]
+    },
+    {
+      "status": "success",
+      "screenshots": [
+        "screenshots/current/password_reset.png"
+      ],
+      "flow": "password_reset"
+    }
+  ],
+  "script_sources": {
+    "login": "cached",
+    "logout": "repaired",
+    "password_reset": "cached"
+  },
+  "flows_reused": [
+    "login",
+    "logout",
+    "password_reset"
+  ],
+  "flows_generated": [],
+  "flows_regenerated": [],
+  "generated_at": "2026-06-14T01:53:44.464995+00:00"
+}
